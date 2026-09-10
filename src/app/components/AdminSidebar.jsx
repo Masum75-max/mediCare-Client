@@ -20,11 +20,11 @@ export default function AdminSidebar({ user }) {
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const navLinks = [
-    { name: "Dashboard Overview", href: "/dashboard/admin", icon: <FaThLarge /> },
+    
     { name: "Manage Users", href: "/dashboard/admin/users", icon: <FaUsers /> },
     { name: "Manage Doctors", href: "/dashboard/admin/doctors", icon: <FaUserMd /> },
     { name: "Manage Appointments", href: "/dashboard/admin/appointments", icon: <FaCalendarAlt /> },
-    { name: "Payment Management", href: "/dashboard/admin/payments", icon: <FaCreditCard /> },
+   
     { name: "Analytics", href: "/dashboard/admin/analytics", icon: <FaChartLine /> },
   ];
 
