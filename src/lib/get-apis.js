@@ -45,6 +45,24 @@ export const getFeaturedDoctors = async (limit = 4) => {
     return [];
   }
 };
+export const getReviewsByUserId = async (userId) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+  try {
+    const res = await fetch(`${baseUrl}/api/reviews/user/${userId}`, {
+      cache: "no-store", // Server Component-এ নতুন ডেটা পাবার জন্য
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch user reviews");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error in getReviewsByUserId:", error);
+    return [];
+  }
+};
 
 
 export const getDoctorById = async (id) => {

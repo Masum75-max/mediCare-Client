@@ -10,7 +10,7 @@ export default function PatientSidebar({ user }) {
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   const navLinks = [
-    { name: "My Appointments", href: "/dashboard/patient", icon: <FaCalendarAlt /> },
+    { name: "My Appointments", href: "/dashboard/patient/appointments", icon: <FaCalendarAlt /> },
     { name: "Payment History", href: "/dashboard/patient/payment-history", icon: <FaHistory /> },
     { name: "My Reviews", href: "/dashboard/patient/reviews", icon: <FaStar /> },
   ];

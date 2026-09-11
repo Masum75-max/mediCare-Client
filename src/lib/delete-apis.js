@@ -47,3 +47,14 @@ export const deleteDoctorById = async (id) => {
     throw error;
   }
 };
+export const deleteReview = async (reviewId) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+  const res = await fetch(`${baseUrl}/api/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Failed to delete review");
+  return data;
+};

@@ -60,3 +60,20 @@ export async function createPrescription(payload) {
 
   return await res.json();
 }
+
+export async function createReview(payload) {
+     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+  const res = await fetch(`${baseUrl}/api/reviews`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to submit review");
+  }
+
+  return await res.json();
+}
