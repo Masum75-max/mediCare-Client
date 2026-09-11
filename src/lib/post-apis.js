@@ -40,3 +40,23 @@ export const postAppointment = async (appointmentData) => {
         throw error;
     }
 }
+
+export async function createPrescription(payload) {
+   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+
+   console.log(`${baseUrl}/api/prescriptions`)
+    console.log("create prescriptions was called")
+  const res = await fetch(`${baseUrl}/api/prescriptions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to save prescription");
+  }
+
+  return await res.json();
+}

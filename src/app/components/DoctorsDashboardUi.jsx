@@ -1,7 +1,7 @@
 import React from 'react';
 import { auth } from '../../lib/auth';
 import { headers } from 'next/headers';
-import { getAppointmentsByUserId } from '../../lib/get-apis';
+import { getAppointmentsByDoctorId, getDoctorById, getDoctorByUserId } from '../../lib/get-apis';
 import DoctorSidebar from './DoctorSidebar';
 import {
   FaCalendarCheck,
@@ -18,7 +18,15 @@ const DoctorsDashboardUi = async () => {
   });
 
   const userId = session?.user?.id;
-  const appointments = (await getAppointmentsByUserId(userId)) || [];
+
+  console.log("doctor er jonno userId eita",userId)
+
+  const doctor = await getDoctorByUserId(userId)
+
+  console.log("doctor er id ", doctor._id)
+
+ 
+  const appointments = (await getAppointmentsByDoctorId(doctor._id)) || [];
 
   // ১. আজকের তারিখ বের করা (YYYY-MM-DD ফরম্যাট)
   const todayStr = new Date().toISOString().split("T")[0];

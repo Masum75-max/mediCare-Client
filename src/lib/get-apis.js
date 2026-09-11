@@ -65,6 +65,29 @@ export const getDoctorById = async (id) => {
   }
 };
 
+// getDoctors by userID:
+export async function getDoctorByUserId(userId) {
+
+  console.log("doce--",userId)
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/doctors/user/${userId}`, {
+      cache: "no-store", 
+    });
+
+    if (!res.ok) {
+      return null;
+    }
+
+    const data = await res.json();
+
+    console.log(data)
+    return data.doctor;
+  } catch (error) {
+    console.error("Failed to fetch doctor by userId:", error);
+    return null;
+  }
+}
+
 // get all doctors 
 
 export const getAllDoctors = async () => {
@@ -105,6 +128,27 @@ export const getAppointmentsByUserId = async (userId) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
     const response = await fetch(`${baseUrl}/api/appointments/user/${userId}`, {
+      cache: "no-store", // ইন্সট্যান্ট নতুন ডাটা পাওয়ার জন্য
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch appointments for user");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching appointments for user:", error);
+    return [];
+  }
+};
+
+// get appointments by doctors Id
+export const getAppointmentsByDoctorId = async (doctorId) => {
+
+  console.log("Appointments pawar jonno doctor er id", doctorId)
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+    const response = await fetch(`${baseUrl}/api/appointments/doctor/${doctorId}`, {
       cache: "no-store", // ইন্সট্যান্ট নতুন ডাটা পাওয়ার জন্য
     });
 

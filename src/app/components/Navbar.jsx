@@ -27,7 +27,6 @@ export default function AppNavbar() {
   const navItems = [
     { name: "Home", href: "/" },
     { name: "Doctors", href: "/doctors" },
-    { name: "Appointments", href: "/appointments" },
     { name: "Services", href: "/services" },
     { name: "About Us", href: "/about" },
     // Only show Dashboard link when logged in
