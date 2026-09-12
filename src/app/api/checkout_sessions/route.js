@@ -23,7 +23,7 @@ export async function POST(req) {
       ],
       mode: "payment",
      
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/appointments/patient?userId=${applicantId}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/dashboard/patient/appointments`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/doctors/${doctorId}`,
     });
 
