@@ -64,7 +64,7 @@ export default function UserReviewsUI({ initialReviews }) {
   if (reviews.length === 0) {
     return (
       <div className="bg-white border border-gray-200 rounded-2xl p-10 text-center shadow-sm max-w-2xl mx-auto my-8">
-        <p className="text-gray-600 text-base font-medium">You haven't posted any reviews yet.</p>
+        <p className="text-gray-600 text-base font-medium">You havent posted any reviews yet.</p>
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function UserReviewsUI({ initialReviews }) {
               </div>
             </div>
             <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">
-              "{review.reviewText}"
+              `{review.reviewText}`
             </p>
           </div>
 

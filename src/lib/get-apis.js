@@ -1,3 +1,6 @@
+"use server"
+import { headers } from "next/headers";
+import { auth } from "./auth";
 
 // doctors page er jonno 
 export const getDoctors = async (filters = {}) => {
@@ -74,7 +77,7 @@ export const getReviewsByDoctorId = async (doctorId) => {
 
   try {
     const res = await fetch(`${baseUrl}/api/reviews/doctor/${doctorId}`, {
-      cache: "no-store", // Server Component-এ নতুন ডেটা পাবার জন্য
+      cache: "no-store", 
     });
 
     if (!res.ok) {
@@ -90,10 +93,21 @@ export const getReviewsByDoctorId = async (doctorId) => {
 
 
 export const getDoctorById = async (id) => {
+  
+
+   const {token }= await auth.api.getToken({
+     headers:await headers()
+   })
+
+  
+   
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
     const response = await fetch(`${baseUrl}/api/doctors/${id}`, {
-      cache: "no-store", // ইন্সট্যান্ট নতুন ডাটা পাওয়ার জন্য
+      headers:{
+       authorization : `Bearer ${token}`
+      },
+      cache: "no-store", 
     }); 
 
     if (!response.ok) {
@@ -191,7 +205,7 @@ export const getAppointmentsByDoctorId = async (doctorId) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
     const response = await fetch(`${baseUrl}/api/appointments/doctor/${doctorId}`, {
-      cache: "no-store", // ইন্সট্যান্ট নতুন ডাটা পাওয়ার জন্য
+      cache: "no-store", 
     });
 
     if (!response.ok) {
@@ -210,7 +224,7 @@ export const getDoctorsByDoctorsId = async (doctorId) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
     const response = await fetch(`${baseUrl}/api/doctors/${doctorId}`, {
-      cache: "no-store", // ইন্সট্যান্ট নতুন ডাটা পাওয়ার জন্য
+      cache: "no-store",
     });
 
     if (!response.ok) {

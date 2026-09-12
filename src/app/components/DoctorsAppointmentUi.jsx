@@ -23,7 +23,7 @@ export default function DoctorAppointmentsUI({ initialAppointments }) {
       setLoadingId(id);
       await updateAppointmentStatus(id, "accepted");
 
-      // UI-তে ইনস্ট্যান্ট স্টেটাস আপডেট
+    
       setAppointments((prev) =>
         prev.map((item) => (item._id === id ? { ...item, status: "accepted" } : item))
       );

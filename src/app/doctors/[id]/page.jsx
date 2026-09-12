@@ -4,7 +4,7 @@ import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { getDoctorById } from "@/lib/get-apis";
-import { postAppointment } from "@/lib/post-apis"; // ✅ Import postAppointment
+import { postAppointment } from "@/lib/post-apis"; 
 import toast, { Toaster } from "react-hot-toast";
 import {
   FaStethoscope,
@@ -115,10 +115,10 @@ export default function DoctorsDetailsPage({ params }) {
       setIsSubmitting(true);
       toast.loading("Processing appointment & initializing payment...");
 
-      // 🔴 ১. সাকসেস পেজে যাওয়ার আগেই ডাটাবেজে অ্যাপয়েন্টমেন্ট সরাসরি সেভ করা
+      
       await postAppointment(appointmentPayload);
 
-      // 🔴 ২. এবার Stripe Checkout Session কল করা
+     
       const res = await fetch("/api/checkout_sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

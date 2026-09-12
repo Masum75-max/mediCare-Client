@@ -33,10 +33,10 @@ const page = async () => {
 
   const appointments = (await getAppointmentsByDoctorId(doctor._id)) || [];
 
-  // ১. আজকের তারিখ (YYYY-MM-DD)
+  
   const todayStr = new Date().toISOString().split("T")[0];
 
-  // ২. আজকের অ্যাপয়েন্টমেন্ট ফিল্টার করা
+
   const todaysAppointments = appointments.filter((item) => {
     if (!item?.date) return false;
     const appDate = new Date(item.date).toISOString().split("T")[0];

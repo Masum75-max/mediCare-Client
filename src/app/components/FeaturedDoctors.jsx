@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import { getFeaturedDoctors } from "@/lib/get-apis";
-import DoctorCard from "@/app/components/DoctorCard"; // আপনার বানানো DoctorCard কম্পোনেন্ট
+import DoctorCard from "@/app/components/DoctorCard"; 
 import { FaArrowRight } from "react-icons/fa";
 
 export default async function FeaturedDoctors() {
-  // প্রথম ৪ জন ডাক্তারকে আনবে
+ 
   const doctors = await getFeaturedDoctors(4);
 
   return (

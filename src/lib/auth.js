@@ -1,6 +1,8 @@
 import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { jwt } from "better-auth/plugins";
+
 
 if (!process.env.CONNECTION_STRING) {
   throw new Error("CONNECTION_STRING env variable is missing! Check .env.local file.");
@@ -27,6 +29,21 @@ export const auth = betterAuth({
         input: true,         
       },
     },
-  }
+  },
+
+  session:{
+
+    cookieCache:{
+      enabled: true,
+      strategy:"jwt",
+      maxAge:7*24*60*60
+    }
+
+  },
+
+
+  plugins:[
+    jwt()
+  ]
   
 });

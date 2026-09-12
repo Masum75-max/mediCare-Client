@@ -12,17 +12,17 @@ export async function POST(req) {
       line_items: [
         {
           price_data: {
-            currency: "usd", // বা আপনার ব্যবহৃত কারেন্সি
+            currency: "usd", 
             product_data: {
               name: `Appointment with ${doctorName}`,
             },
-            unit_amount: consultationFee * 100, // সেন্টসে কনভার্ট
+            unit_amount: consultationFee * 100, 
           },
           quantity: 1,
         },
       ],
       mode: "payment",
-      // 🔴 এখানে userIdURL parameter হিসেবে যোগ করা হয়েছে
+     
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/appointments/patient?userId=${applicantId}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/doctors/${doctorId}`,
     });

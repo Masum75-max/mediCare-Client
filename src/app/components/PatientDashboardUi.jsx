@@ -15,7 +15,6 @@ const PatientDashboardUi = async () => {
   const userId = session?.user?.id;
   const appointments = (await getAppointmentsByUserId(userId)) || [];
 
-  // ১. Total Fee ক্যালকুলেশন
   let totalFee = 0;
   appointments.forEach((appointment) => {
     totalFee += parseInt(appointment.fee) || 0;
@@ -35,7 +34,7 @@ const PatientDashboardUi = async () => {
     })
   );
 
-  // Null রেসপন্স বাদ দেওয়া
+ 
   const validDoctors = favoriteDoctors.filter(Boolean);
 
   return (

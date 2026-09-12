@@ -50,7 +50,7 @@ export default function DoctorFilterBar() {
 
   return (
     <div className="bg-white p-4 rounded-2xl shadow-md border border-gray-100 mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-4xl mx-auto">
-      {/* 🔍 Search Input */}
+     
       <div className="w-full sm:w-1/2">
         <input
           type="text"
@@ -61,7 +61,7 @@ export default function DoctorFilterBar() {
         />
       </div>
 
-      {/* 🩺 Specialization Dropdown */}
+  
       <div className="w-full sm:w-1/4">
         <select
           value={specialization}
@@ -76,7 +76,7 @@ export default function DoctorFilterBar() {
         </select>
       </div>
 
-      {/* ⚡ Sort By Dropdown */}
+
       <div className="w-full sm:w-1/4">
         <select
           value={sortBy}

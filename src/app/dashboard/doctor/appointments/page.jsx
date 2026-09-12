@@ -1,6 +1,6 @@
 import React from 'react';
 import { headers } from "next/headers";
-import { auth } from "../../../../lib/auth"; // আপনার Auth ইন্সট্যান্স
+import { auth } from "../../../../lib/auth"; 
 import { getAppointmentsByDoctorId, getDoctorByUserId } from "@/lib/get-apis";
 import DoctorAppointmentsUI from "../../../components/DoctorsAppointmentUi";
 

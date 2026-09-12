@@ -9,7 +9,7 @@ export default function DoctorCard({ doctor }) {
 
   return (
     <div className="relative group w-full max-w-sm rounded-3xl p-[2px] overflow-hidden transition-all duration-300 hover:scale-[1.02]">
-      {/* 🌟 Rotating Gradient Border Animation */}
+      
       <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#3b82f6,#8b5cf6,#ec4899,#3b82f6)] animate-spin-slow opacity-75 group-hover:opacity-100 transition-opacity rounded-3xl" />
 
       {/* Main Card Body */}

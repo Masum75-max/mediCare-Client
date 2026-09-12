@@ -15,7 +15,6 @@ export const deleteUserById = async (id) => {
     });
 
     if (!res.ok) {
-      // Backend থেকে কী error message আসছে তা দেখা
       const errorData = await res.json().catch(() => ({}));
       console.error("Backend response error:", res.status, errorData);
       throw new Error(errorData.error || "Failed to delete user");

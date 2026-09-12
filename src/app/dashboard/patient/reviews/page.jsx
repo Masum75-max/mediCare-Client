@@ -32,7 +32,7 @@ const Page = async () => {
     );
   }
 
-  // ডাটাবেস থেকে ইউজার আইডি দিয়ে রিভিউ নিয়ে আসা হচ্ছে 
+ 
   const userReviews = (await getReviewsByUserId(userId)) || [];
 
   return (

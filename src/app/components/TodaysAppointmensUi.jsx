@@ -22,7 +22,6 @@ export default function TodaysAppointmentsUI({ doctor, appointments: initialAppo
   const [prescriptionText, setPrescriptionText] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ভেরিফিকেশন চেক
   const isVerified =
     doctor?.verificationStatus === "true" || doctor?.verificationStatus === true;
 
@@ -68,7 +67,7 @@ export default function TodaysAppointmentsUI({ doctor, appointments: initialAppo
 
       await createPrescription(payload);
 
-      // UI-তে ইনস্ট্যান্ট স্টেটাস পরিবর্তন
+     
       setAppointments((prev) =>
         prev.map((item) =>
           item._id === selectedApp._id ? { ...item, status: "completed" } : item
