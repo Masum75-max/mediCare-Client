@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "../../lib/auth-client";
 import { toast, ToastContainer } from "react-toastify";
-import { useSearchParams } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Card,
@@ -17,7 +16,7 @@ import {
 } from "@heroui/react";
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from "react-icons/fa";
 
-export default function SignIn() {
+function SignInContent() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -68,9 +67,13 @@ export default function SignIn() {
         pauseOnHover
         theme="light"
       />
+
       <Card className="w-full max-w-md">
         <Card.Header>
-          <Card.Title className="text-2xl font-bold text-center">Sign In</Card.Title>
+          <Card.Title className="text-2xl font-bold text-center">
+            Sign In
+          </Card.Title>
+
           <Card.Description className="text-center">
             Welcome back! Please sign in to your account
           </Card.Description>
@@ -78,41 +81,47 @@ export default function SignIn() {
 
         <Card.Content>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {/* Email */}
             <TextField name="email" type="email" isRequired>
               <Label>Email</Label>
+
               <InputGroup>
                 <InputGroup.Prefix>
                   <FaEnvelope className="text-gray-400" />
                 </InputGroup.Prefix>
+
                 <InputGroup.Input
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={handleChange("email")}
                 />
               </InputGroup>
+
               <FieldError />
             </TextField>
 
-            {/* Password with eye toggle */}
             <TextField name="password" isRequired>
               <Label>Password</Label>
+
               <InputGroup>
                 <InputGroup.Prefix>
                   <FaLock className="text-gray-400" />
                 </InputGroup.Prefix>
+
                 <InputGroup.Input
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange("password")}
                 />
+
                 <InputGroup.Suffix>
                   <Button
                     isIconOnly
                     size="sm"
                     variant="ghost"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                     onPress={() => setShowPassword((prev) => !prev)}
                   >
                     {showPassword ? (
@@ -123,16 +132,25 @@ export default function SignIn() {
                   </Button>
                 </InputGroup.Suffix>
               </InputGroup>
+
               <FieldError />
             </TextField>
 
-            <Button type="submit" variant="primary" isDisabled={loading} className="mt-2 w-full">
+            <Button
+              type="submit"
+              variant="primary"
+              isDisabled={loading}
+              className="mt-2 w-full"
+            >
               {loading ? "Signing in..." : "Sign In"}
             </Button>
 
             <p className="text-center text-sm text-gray-500 mt-2">
               Dont have an account?{" "}
-              <Link href={`/signup?redirect=${redirectPath}`} className="text-accent font-medium hover:underline">
+              <Link
+                href={`/signup?redirect=${redirectPath}`}
+                className="text-accent font-medium hover:underline"
+              >
                 Sign Up
               </Link>
             </p>
@@ -140,5 +158,13 @@ export default function SignIn() {
         </Card.Content>
       </Card>
     </div>
+  );
+}
+
+export default function SignIn() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInContent />
+    </Suspense>
   );
 }
