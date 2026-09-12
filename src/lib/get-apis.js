@@ -58,7 +58,7 @@ export const getReviewsByUserId = async (userId) => {
 
   try {
     const res = await fetch(`${baseUrl}/api/reviews/user/${userId}`, {
-      cache: "no-store", // Server Component-এ নতুন ডেটা পাবার জন্য
+      cache: "no-store", 
     });
 
     if (!res.ok) {
@@ -221,6 +221,12 @@ export const getAppointmentsByDoctorId = async (doctorId) => {
 
 
 export const getDoctorsByDoctorsId = async (doctorId) => {
+
+  
+   const {token }= await auth.api.getToken({
+     headers:await headers()
+   })
+
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
     const response = await fetch(`${baseUrl}/api/doctors/${doctorId}`, {
