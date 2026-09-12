@@ -1,15 +1,14 @@
 import { getDoctors } from "@/lib/get-apis";
 import DoctorCard from "@/app/components/DoctorCard";
-import DoctorFilterBar from "../components/DoctorFilterBar"; // Filter Bar Import
+import DoctorFilterBar from "../components/DoctorFilterBar";
 
 export default async function DoctorList({ searchParams }) {
-  // Next.js 15 এ searchParams একটি Promise
   const filters = await searchParams;
 
-  // Search & Filter অনুযায়ী Server-side এ ডাটা ফেচ হবে
   const doctors = await getDoctors({
     search: filters?.search || "",
     specialization: filters?.specialization || "All",
+    sortBy: filters?.sortBy || "default",
   });
 
   return (
@@ -23,10 +22,8 @@ export default async function DoctorList({ searchParams }) {
         </p>
       </div>
 
-      {/* 🔍 Filter Component (Client-side interactivity) */}
       <DoctorFilterBar />
 
-      {/* 🏥 Doctor Cards Grid */}
       {doctors?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
           {doctors.map((doctor) => (

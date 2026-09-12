@@ -3,7 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 
-// 🏥 বিস্তৃত সব Specializations List
 export const SPECIALIZATIONS = [
   "All",
   "Cardiologist",
@@ -30,8 +29,8 @@ export default function DoctorFilterBar() {
   const [specialization, setSpecialization] = useState(
     searchParams.get("specialization") || "All"
   );
+  const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "default");
 
-  // Search/Filter পরিবর্তন হলে URL আপডেট করা
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams();
@@ -39,17 +38,20 @@ export default function DoctorFilterBar() {
       if (specialization && specialization !== "All") {
         params.set("specialization", specialization);
       }
+      if (sortBy && sortBy !== "default") {
+        params.set("sortBy", sortBy);
+      }
 
       router.push(`?${params.toString()}`);
-    }, 400); // Debounce Delay
+    }, 400);
 
     return () => clearTimeout(timer);
-  }, [search, specialization, router]);
+  }, [search, specialization, sortBy, router]);
 
   return (
     <div className="bg-white p-4 rounded-2xl shadow-md border border-gray-100 mb-8 flex flex-col sm:flex-row gap-4 justify-between items-center max-w-4xl mx-auto">
       {/* 🔍 Search Input */}
-      <div className="w-full sm:w-2/3">
+      <div className="w-full sm:w-1/2">
         <input
           type="text"
           placeholder="Search doctor by name..."
@@ -60,7 +62,7 @@ export default function DoctorFilterBar() {
       </div>
 
       {/* 🩺 Specialization Dropdown */}
-      <div className="w-full sm:w-1/3">
+      <div className="w-full sm:w-1/4">
         <select
           value={specialization}
           onChange={(e) => setSpecialization(e.target.value)}
@@ -71,6 +73,19 @@ export default function DoctorFilterBar() {
               {cat === "All" ? "All Specializations" : cat}
             </option>
           ))}
+        </select>
+      </div>
+
+      {/* ⚡ Sort By Dropdown */}
+      <div className="w-full sm:w-1/4">
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all text-sm bg-white cursor-pointer font-medium text-gray-700"
+        >
+          <option value="default">Sort By (Default)</option>
+          <option value="fee-low">Fee: Low to High</option>
+          <option value="exp-high">Experience: High to Low</option>
         </select>
       </div>
     </div>

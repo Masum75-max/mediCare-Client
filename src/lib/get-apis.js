@@ -4,14 +4,19 @@ export const getDoctors = async (filters = {}) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
     
-    
     const params = new URLSearchParams();
     if (filters.search) params.append("search", filters.search);
     if (filters.specialization && filters.specialization !== "All") {
       params.append("specialization", filters.specialization);
     }
+    if (filters.sortBy && filters.sortBy !== "default") {
+      params.append("sortBy", filters.sortBy);
+    }
+          
+    console.log("API CALL HOCCHE TO");
+    console.log(`${baseUrl}/api/doctorsSort?${params.toString()}`);
 
-    const response = await fetch(`${baseUrl}/api/doctors?${params.toString()}`, {
+    const response = await fetch(`${baseUrl}/api/doctorsSort?${params.toString()}`, {
       cache: "no-store", 
     });
 
@@ -50,6 +55,25 @@ export const getReviewsByUserId = async (userId) => {
 
   try {
     const res = await fetch(`${baseUrl}/api/reviews/user/${userId}`, {
+      cache: "no-store", // Server Component-এ নতুন ডেটা পাবার জন্য
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch user reviews");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error in getReviewsByUserId:", error);
+    return [];
+  }
+};
+
+export const getReviewsByDoctorId = async (doctorId) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+  try {
+    const res = await fetch(`${baseUrl}/api/reviews/doctor/${doctorId}`, {
       cache: "no-store", // Server Component-এ নতুন ডেটা পাবার জন্য
     });
 

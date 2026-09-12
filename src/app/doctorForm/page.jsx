@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { authClient } from "../../lib/auth-client";
 import { postDoctor } from "../../lib/post-apis"
 import {
@@ -75,13 +75,15 @@ export default function DoctorVerificationForm() {
     };
 
     console.log("Submitted Data:", doctorVerificationData);
-    //baki kj developer korbe
+   
     const result = await postDoctor(doctorVerificationData);
 
-    console.log("Result from postDoctor:", result);
+    redirect('/doctors')
+
+
   };
 
-  // সেশন চেক চলাকালীন লোডিং দেখানো
+ 
   if (isPending || !session?.user || session?.user?.role !== "Doctor") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -103,8 +105,8 @@ export default function DoctorVerificationForm() {
           <Card.Title className="text-2xl md:text-3xl font-extrabold text-gray-800">
             Doctor Verification
           </Card.Title>
-          <Card.Description className="text-sm text-gray-500 mt-1">
-            Please fillOut this form for verification.
+          <Card.Description className="text-lg text-gray-500 mt-1">
+            Please fillOut this form for verification.Note: FOLLOW THE GIVEN FORMAT.OR SOME FUNCTIONALITIES MAY NOT WORK LIKE SEARCHING,SORTING.
           </Card.Description>
         </Card.Header>
 
@@ -187,7 +189,7 @@ export default function DoctorVerificationForm() {
                     <FaMoneyBillWave className="text-gray-400" />
                   </InputGroup.Prefix>
                   <InputGroup.Input
-                    placeholder="e.g. 1000 BDT"
+                    placeholder="e.g. 1000 (Numbers only.)"
                     value={formData.consultationFee}
                     onChange={handleChange("consultationFee")}
                     className="focus:ring-2 focus:ring-blue-500/20"
@@ -238,7 +240,7 @@ export default function DoctorVerificationForm() {
                     <FaClock className="text-gray-400" />
                   </InputGroup.Prefix>
                   <InputGroup.Input
-                    placeholder="e.g. 30"
+                    placeholder="e.g. 10:AM-2:00 PM"
                     value={formData.availableSlots}
                     onChange={handleChange("availableSlots")}
                     className="focus:ring-2 focus:ring-blue-500/20"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { auth } from '../../lib/auth';
 import { headers } from 'next/headers';
-import { getAppointmentsByDoctorId, getDoctorById, getDoctorByUserId } from '../../lib/get-apis';
+import { getAppointmentsByDoctorId, getDoctorByUserId, getReviewsByDoctorId } from '../../lib/get-apis';
 import DoctorSidebar from './DoctorSidebar';
 import {
   FaCalendarCheck,
@@ -10,6 +10,7 @@ import {
   FaUserCheck,
   FaClock,
   FaCalendarTimes,
+  FaCommentDots,
 } from 'react-icons/fa';
 
 const DoctorsDashboardUi = async () => {
@@ -18,43 +19,24 @@ const DoctorsDashboardUi = async () => {
   });
 
   const userId = session?.user?.id;
+  const doctor = await getDoctorByUserId(userId);
+  const appointments = (await getAppointmentsByDoctorId(doctor?._id)) || [];
 
-  console.log("doctor er jonno userId eita",userId)
-
-  const doctor = await getDoctorByUserId(userId)
-
-  console.log("doctor er id ", doctor._id)
-
- 
-  const appointments = (await getAppointmentsByDoctorId(doctor._id)) || [];
-
-  // ১. আজকের তারিখ বের করা (YYYY-MM-DD ফরম্যাট)
+  
   const todayStr = new Date().toISOString().split("T")[0];
 
-  // ২. আজকের অ্যাপয়েন্টমেন্ট ফিল্টার করা
+
   const todaysAppointments = appointments.filter((item) => {
     if (!item?.date) return false;
     const appDate = new Date(item.date).toISOString().split("T")[0];
     return appDate === todayStr;
   });
 
-  // ৩. ডামি রিভিউ ডাটা
-  const dummyReviews = [
-    {
-      id: "rev-1",
-      userName: "Rahim Ahmed",
-      rating: 5,
-      comment: "Very attentive doctor. Listened to my problem carefully and prescribed effective medication.",
-      date: "2026-03-01",
-    },
-    {
-      id: "rev-2",
-      userName: "Nusrat Jahan",
-      rating: 4,
-      comment: "Great experience overall. The doctor was polite and explained the prescription thoroughly.",
-      date: "2026-02-28",
-    },
-  ];
+  const reviews = (await getReviewsByDoctorId(doctor?._id)) || [];
+
+  
+  const totalRating = reviews.reduce((sum, rev) => sum + (Number(rev.rating) || 0), 0);
+  const averageRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : "0.0";
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col lg:flex-row">
@@ -89,7 +71,7 @@ const DoctorsDashboardUi = async () => {
           <div className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl flex items-center justify-between shadow-lg sm:col-span-2 lg:col-span-1">
             <div>
               <p className="text-xs text-gray-400 font-semibold uppercase">Average Rating</p>
-              <h3 className="text-2xl font-black text-emerald-400 mt-1">4.5 / 5.0</h3>
+              <h3 className="text-2xl font-black text-emerald-400 mt-1">{averageRating} / 5.0</h3>
             </div>
             <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center text-xl">
               <FaStar />
@@ -152,32 +134,50 @@ const DoctorsDashboardUi = async () => {
           <div className="border-b border-zinc-800 pb-3 flex items-center justify-between">
             <h2 className="text-xl font-bold text-white tracking-wide">Reviews Received</h2>
             <span className="text-xs text-gray-400 bg-zinc-900 px-3 py-1 rounded-full border border-zinc-800">
-              Recent Feedback
+              Total Feedback: {reviews.length}
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {dummyReviews.map((rev) => (
-              <div
-                key={rev.id}
-                className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-3 shadow-md"
-              >
-                <div className="flex items-center justify-between">
-                  <p className="font-bold text-sm text-white">{rev.userName}</p>
-                  <div className="flex items-center gap-1 text-amber-400 text-xs font-bold">
-                    <FaStar />
-                    <span>{rev.rating}.0</span>
+          {reviews.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {reviews.map((rev) => (
+                <div
+                  key={rev._id}
+                  className="bg-zinc-900 border border-zinc-800 p-5 rounded-2xl space-y-3 shadow-md hover:border-zinc-700 transition-all"
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="font-bold text-xs text-blue-400 font-mono">
+                      User ID: {rev.userId || "N/A"}
+                    </p>
+                    <div className="flex items-center gap-1 text-amber-400 text-xs font-bold">
+                      <FaStar />
+                      <span>{Number(rev.rating).toFixed(1)}</span>
+                    </div>
                   </div>
+
+                  <p className="text-xs text-gray-300 italic bg-zinc-950/40 p-3 rounded-xl border border-zinc-800/50">
+                    `{rev.reviewText}`
+                  </p>
+
+                  <p className="text-[11px] text-gray-500 text-right">
+                    {rev.createdAt
+                      ? new Date(rev.createdAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : "N/A"}
+                  </p>
                 </div>
-
-                <p className="text-xs text-gray-300 italic bg-zinc-950/40 p-3 rounded-xl border border-zinc-800/50">
-                  `{rev.comment}`
-                </p>
-
-                <p className="text-[11px] text-gray-500 text-right">{rev.date}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 bg-zinc-900/50 border border-zinc-800 rounded-2xl text-center flex flex-col items-center justify-center space-y-2">
+              <FaCommentDots className="text-3xl text-zinc-600" />
+              <p className="text-sm font-semibold text-gray-400">No reviews yet</p>
+              <p className="text-xs text-zinc-500">You havent received any patient reviews yet.</p>
+            </div>
+          )}
         </div>
 
       </main>
