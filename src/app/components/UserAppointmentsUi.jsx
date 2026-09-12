@@ -97,7 +97,7 @@ export default function UserAppointmentsUI({ appointments, userId }) {
           >
             <FaArrowLeft /> Back to Dashboard
           </Link>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">My Appointments</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-black">My Appointments</h1>
         </div>
       </div>
 
