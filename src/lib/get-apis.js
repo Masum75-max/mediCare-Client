@@ -54,7 +54,7 @@ export const getFeaturedDoctors = async (limit = 4) => {
   }
 };
 export const getReviewsByUserId = async (userId) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
 
   try {
     const res = await fetch(`${baseUrl}/api/reviews/user/${userId}`, {
@@ -73,7 +73,7 @@ export const getReviewsByUserId = async (userId) => {
 };
 
 export const getReviewsByDoctorId = async (doctorId) => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
 
   try {
     const res = await fetch(`${baseUrl}/api/reviews/doctor/${doctorId}`, {
